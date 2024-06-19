@@ -81,12 +81,14 @@ jobs:
             echo "brew install curl" > prebuild.sh
           elif [[ "${{ runner.os }}" == "Windows" ]]; then
             echo "choco install curl" > prebuild.sh
-          elif grep -q 'ID=centos' /etc/os-release || grep -q 'ID=rhel' /etc/os-release || grep -q 'ID=fedora' /etc/os-release; then
-            echo "cat /etc/os-release && yum install -y curl libcurl-devel" > prebuild.sh
-          elif grep -q 'ID=debian' /etc/os-release || grep -q 'ID_LIKE=debian' /etc/os-release; then
-            echo "cat /etc/os-release && apt-get update && apt-get install -y curl libcurl4-openssl-dev" > prebuild.sh
+          # elif grep -q 'centos' /etc/os-release || grep -q 'rhel' /etc/os-release || grep -q 'fedora' /etc/os-release; then
+          #   echo "cat /etc/os-release && yum install -y curl libcurl-devel" > prebuild.sh
+          # elif grep -q 'ID=debian' /etc/os-release || grep -q 'ID_LIKE=debian' /etc/os-release; then
+          #   cat /etc/os-release
+          #   echo "yum install -y curl libcurl-devel || apk add curl curl-dev || apt-get install -y curl libcurl4-openssl-dev" > prebuild.sh
           else
             cat /etc/os-release
+            echo "yum install -y curl libcurl-devel || apk add curl curl-dev || apt-get install -y curl libcurl4-openssl-dev" > prebuild.sh
             echo "Unsupported Linux distribution" && exit 1
           fi
           chmod +x prebuild.sh
