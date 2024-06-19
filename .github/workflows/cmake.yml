@@ -97,7 +97,7 @@ jobs:
           python -m cibuildwheel --platform $platform --output-dir wheelhouse
         env:
           CIBW_BEFORE_BUILD: "./prebuild.sh"
-          CIBW_SKIP: cp38-* cp39-* cp310-* cp311=* cp312=* *_manylinux*
+          CIBW_SKIP: "*_manylinux1_* *_manylinux2010_* *_manylinux2014_* cp38-* cp39-* cp310-* cp311=* cp312=*"
           CIBW_BUILD: cp311*
 
       - name: Publish to PyPI
