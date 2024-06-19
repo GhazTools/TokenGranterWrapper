@@ -69,7 +69,7 @@ jobs:
           CIBW_BUILD: cp311*
 
       - name: Publish to PyPI
-        run: python -m twine upload --repository-url https://pypi.ghaz.dev:440 wheelhouse/*.whl
+        run: python -m twine upload --repository-url https://pypi.ghaz.dev:440 wheelhouse/*.whl --verbose
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
