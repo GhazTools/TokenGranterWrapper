@@ -79,7 +79,6 @@ jobs:
           python -m cibuildwheel --platform $platform --output-dir wheelhouse
         env:
           CIBW_BEFORE_BUILD: "./prebuild.sh"
-          CIBW_REPAIR_WHEEL_COMMAND_LINUX: "wget http://security.ubuntu.com/ubuntu/pool/main/a/apt/apt_1.4_amd64.deb && dpkg -i apt_1.4_amd64.deb && apt-get update && apt-get install -y curl libcurl4-openssl-dev || {0}"
           CIBW_SKIP: cp38-* cp39-* cp310-* cp311=* cp312=* *_manylinux*
           CIBW_BUILD: cp311*
 
