@@ -44,7 +44,8 @@ setup(
         )
     ],
     package_data={
-        "": ["*.so"],
+        "": ["*.so", "*.pyi"],
     },
+    include_package_data=True,
     cmdclass=dict(build_ext=CMakeBuild),
 )
