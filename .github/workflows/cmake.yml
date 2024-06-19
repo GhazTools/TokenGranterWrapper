@@ -81,7 +81,7 @@ jobs:
             echo "brew install curl" > prebuild.sh
           elif [[ "${{ runner.os }}" == "Windows" ]]; then
             echo "choco install curl" > prebuild.sh
-          elif grep -q 'ID=rhel' /etc/os-release || grep -q 'ID=fedora' /etc/os-release || grep -q 'ID=centos' /etc/os-release; then
+          elif grep -q 'ID=centos' /etc/os-release || grep -q 'ID=rhel' /etc/os-release || grep -q 'ID=fedora' /etc/os-release; then
             echo "cat /etc/os-release && yum install -y curl libcurl-devel" > prebuild.sh
           elif grep -q 'ID=debian' /etc/os-release || grep -q 'ID_LIKE=debian' /etc/os-release; then
             echo "cat /etc/os-release && apt-get update && apt-get install -y curl libcurl4-openssl-dev" > prebuild.sh
