@@ -70,13 +70,14 @@ jobs:
       - name: Build wheels
         run: |
           if [[ "${{ runner.os }}" == "Linux" ]]; then
-            apt-get update && apt install -y curl && apt-get install -y libcurl4-openssl-dev
-            python -m cibuildwheel --platform linux --output-dir wheelhouse
+            echo "apt-get update && apt-get install -y curl libcurl4-openssl-dev" > prebuild.sh
           elif [[ "${{ runner.os }}" == "macOS" ]]; then
-            python -m cibuildwheel --platform macos --output-dir wheelhouse
+            echo "brew install curl" > prebuild.sh
           fi
+          chmod +x prebuild.sh
+          python -m cibuildwheel --platform ${{ runner.os }} --output-dir wheelhouse
         env:
-          CIBW_BEFORE_ALL: "apt-get update && apt-get install -y curl libcurl4-openssl-dev"
+          CIBW_BEFORE_BUILD: "./prebuild.sh"
           CIBW_SKIP: cp38-* cp39-* cp310-* cp311=* cp312=* *_manylinux*
           CIBW_BUILD: cp311*
 
