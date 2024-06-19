@@ -43,5 +43,8 @@ setup(
             "token_granter_wrapper", os.path.dirname(os.path.realpath(__file__))
         )
     ],
+    package_data={
+        "token_granter_wrapper": ["*.so"],
+    },
     cmdclass=dict(build_ext=CMakeBuild),
 )
