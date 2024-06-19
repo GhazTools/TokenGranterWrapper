@@ -75,7 +75,8 @@ jobs:
             echo "brew install curl" > prebuild.sh
           fi
           chmod +x prebuild.sh
-          python -m cibuildwheel --platform ${{ runner.os }} --output-dir wheelhouse
+          platform=$(echo ${{ runner.os }} | tr '[:upper:]' '[:lower:]')
+          python -m cibuildwheel --platform $platform --output-dir wheelhouse
         env:
           CIBW_BEFORE_BUILD: "./prebuild.sh"
           CIBW_SKIP: cp38-* cp39-* cp310-* cp311=* cp312=* *_manylinux*
