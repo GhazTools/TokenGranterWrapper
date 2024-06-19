@@ -89,7 +89,6 @@ jobs:
           else
             cat /etc/os-release
             echo "yum install -y curl libcurl-devel || apk add curl curl-dev || apt-get install -y curl libcurl4-openssl-dev" > prebuild.sh
-            echo "Unsupported Linux distribution" && exit 1
           fi
           chmod +x prebuild.sh
           ls -l prebuild.sh  # Check that prebuild.sh exists and is executable
