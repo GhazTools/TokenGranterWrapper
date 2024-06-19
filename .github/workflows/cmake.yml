@@ -1,0 +1,49 @@
+name: CMake Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            suffix: so
+          - os: macos-latest
+            suffix: dylib
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          if [[ "${{ runner.os }}" == "Linux" ]]; then
+            sudo apt-get update
+            sudo apt-get install -y libcurl4-openssl-dev
+          else
+            brew install curl
+          fi
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{runner.workspace}}/build
+
+      - name: Configure CMake
+        shell: bash
+        run: cmake $GITHUB_WORKSPACE -B ${{runner.workspace}}/build
+
+      - name: Build
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: cmake --build . --config Release
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: library-${{ matrix.os }}-${{ matrix.suffix }}
+          path: ${{runner.workspace}}/build/libMyLibrary.${{ matrix.suffix }}
