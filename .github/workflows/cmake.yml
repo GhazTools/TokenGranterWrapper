@@ -104,7 +104,13 @@ jobs:
           # CIBW_TEST_COMMAND: "pytest {project}/tests/"
 
       - name: List wheelhouse contents
-        run: ls &&  ls token_granter_wrapper && ls -l wheelhouse
+        run: |
+          ls
+          echo "TK GRANTER STARTS HERE"
+          ls token_granter_wrapper
+          echo "WHEELHOUSE STARTS HERE"
+          ls -l wheelhouse      
+          
       # - name: Test pacakge
       #   run: pip install wheelhouse/*.whl && pytest {project}/tests/
 
