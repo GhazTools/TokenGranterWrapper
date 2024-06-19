@@ -70,7 +70,7 @@ jobs:
       - name: Build wheels
         run: |
           if [[ "${{ runner.os }}" == "Linux" ]]; then
-            echo "apt-get update && apt-get install -y curl libcurl4-openssl-dev" > prebuild.sh
+            echo "RUN apt-get update && apt-get install -y curl libcurl4-openssl-dev" > prebuild.sh
           elif [[ "${{ runner.os }}" == "macOS" ]]; then
             echo "brew install curl" > prebuild.sh
           fi
