@@ -42,8 +42,14 @@ jobs:
         shell: bash
         run: cmake --build . --config Release
 
-      - name: Upload Artifact
+      - name: Upload Artifact Shared
         uses: actions/upload-artifact@v2
         with:
           name: library-${{ matrix.os }}-${{ matrix.suffix }}
           path: ${{runner.workspace}}/build/token_granter_shared.${{ matrix.suffix }}
+
+      - name: Upload Artifact Pybindings
+        uses: actions/upload-artifact@v2
+        with:
+          name: library-${{ matrix.os }}-${{ matrix.suffix }}
+          path: ${{runner.workspace}}/build/token_granter.${{ matrix.suffix }}
