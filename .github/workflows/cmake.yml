@@ -77,7 +77,7 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ runner.os }}" == "Linux" ]]; then
-            echo "RUN apt-get update && apt-get install -y curl libcurl4-openssl-dev" > prebuild.sh
+            echo "apt-get update \ apt-get install -y curl libcurl4-openssl-dev" > prebuild.sh
           elif [[ "${{ runner.os }}" == "macOS" ]]; then
             echo "brew install curl" > prebuild.sh
           elif [[ "${{ runner.os }}" == "Windows" ]]; then
