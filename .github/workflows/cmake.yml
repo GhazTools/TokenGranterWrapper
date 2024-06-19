@@ -65,8 +65,8 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          CIBW_SKIP: cp38-* cp39-* cp310-* cp312=*
-          CIBW_BUILD: cp311-*
+          CIBW_SKIP: cp38-* cp39-* cp310-* cp311=* cp312=*
+          CIBW_BUILD: cp311*
 
       - name: Publish to PyPI
         run: python -m twine upload --repository-url https://pypi.ghaz.dev:440 wheelhouse/*.whl
