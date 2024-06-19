@@ -1,4 +1,4 @@
-from setuptools import setup, Extension
+from setuptools import setup, Extension, find_packages
 from setuptools.command.build_ext import build_ext
 import os
 import sys
@@ -37,14 +37,14 @@ class CMakeBuild(build_ext):
 setup(
     name="token-granter-wrapper",
     version="0.1",
-    packages=["token_granter_wrapper"],
+    packages=find_packages(),
     ext_modules=[
         CMakeExtension(
             "token_granter_wrapper", os.path.dirname(os.path.realpath(__file__))
         )
     ],
     package_data={
-        "token_granter_wrapper": ["*.so"],
+        "": ["*.so"],
     },
     cmdclass=dict(build_ext=CMakeBuild),
 )
