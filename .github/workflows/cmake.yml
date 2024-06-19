@@ -64,7 +64,7 @@ jobs:
         run: python -m pip install cibuildwheel twine build
 
       - name: Clean project directory
-        run: find . -type f \( -name "*.so" -o -name "*.c" -o -name "*.o" \) -delete
+        run: find . -path ./include -prune -o -type f \( -name "*.so" -o -name "*.c" -o -name "*.o" \) -delete
 
       - name: Build wheels
         run: |
