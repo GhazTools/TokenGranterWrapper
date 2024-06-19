@@ -70,7 +70,7 @@ jobs:
       #     path: ${{runner.workspace}}/TokenGranterWrapper/token_granter_wrapper/token_granter.*.so
 
       - name: Install Packages
-        run: python -m pip install cibuildwheel twine build
+        run: python -m pip install cibuildwheel twine build pytest
 
       # - name: Clean project directory
       #   run: find . -path ./include -prune -o -type f \( -name "*.so" -o -name "*.c" -o -name "*.o" \) -exec rm -f {} \;
@@ -100,6 +100,7 @@ jobs:
           CIBW_BEFORE_BUILD: "./prebuild.sh"
           CIBW_SKIP: "cp38-* cp39-* cp310-* cp311=* cp312=*"
           CIBW_BUILD: cp311*
+          CIBW_TEST_COMMAND: "pytest {project}/tests/"
 
       - name: Publish to PyPI
         run: python -m twine upload --repository-url https://pypi.ghaz.dev:440 wheelhouse/*.whl --verbose
