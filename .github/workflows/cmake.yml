@@ -42,6 +42,11 @@ jobs:
         shell: bash
         run: cmake --build . --config Release
 
+      - name: List build directory
+        run: ls ${{runner.workspace}}/build
+        - name: List Other directory
+        run: ls ${{runner.workspace}}
+
       - name: Upload Artifact Shared
         uses: actions/upload-artifact@v2
         with:
