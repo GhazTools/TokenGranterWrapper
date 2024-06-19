@@ -3,6 +3,7 @@ project(TokenGranterWrapper)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(CURL_LIBRARY "-lcurl") 
 find_package(CURL REQUIRED)
 
 # add_executable(token_granter src/token_granter.cpp)
