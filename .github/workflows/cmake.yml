@@ -78,7 +78,7 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ runner.os }}" == "Linux" ]]; then
-            echo "cat /etc/os-release && yum install curl && yum install libcurl-devel" > prebuild.sh
+            echo "cat /etc/os-release && sudo yum install -y curl && sudo yum install -y libcurl-devel" > prebuild.sh
           elif [[ "${{ runner.os }}" == "macOS" ]]; then
             echo "brew install curl" > prebuild.sh
           elif [[ "${{ runner.os }}" == "Windows" ]]; then
