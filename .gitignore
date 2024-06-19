@@ -33,3 +33,7 @@
 
 # Other
 /build
+/dist
+.python-version
+*.egg-info
+*.so
