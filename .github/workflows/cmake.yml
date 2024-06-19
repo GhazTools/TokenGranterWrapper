@@ -90,6 +90,8 @@ jobs:
             echo "Unsupported Linux distribution" && exit 1
           fi
           chmod +x prebuild.sh
+          ls -l prebuild.sh  # Check that prebuild.sh exists and is executable
+          cat prebuild.sh  # Check the contents of prebuild.sh
           platform=$(echo ${{ runner.os }} | tr '[:upper:]' '[:lower:]')
           python -m cibuildwheel --platform $platform --output-dir wheelhouse
         env:
