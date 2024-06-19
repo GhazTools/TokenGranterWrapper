@@ -44,7 +44,8 @@ jobs:
 
       - name: List build directory
         run: ls ${{runner.workspace}}/build
-        - name: List Other directory
+
+      - name: List Other directory
         run: ls ${{runner.workspace}}
 
       - name: Upload Artifact Shared
