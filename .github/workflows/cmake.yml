@@ -100,6 +100,7 @@ jobs:
           CIBW_BEFORE_BUILD: "./prebuild.sh"
           CIBW_SKIP: "cp38-* cp39-* cp310-* cp311=* cp312=*"
           CIBW_BUILD: cp311*
+          CIBW_BEFORE_TEST: "pip install wheelhouse/token_granter_wrapper*.whl"
           CIBW_TEST_COMMAND: "pytest {project}/tests/"
 
       - name: Publish to PyPI
