@@ -17,6 +17,6 @@ target_link_libraries(token_granter_shared ${CURL_LIBRARIES})
 
 # PYBINDING SHARED LIBRARY COMPILATION HERE
 add_subdirectory(./include/pybind11)
-pybind11_add_module(token_granter_py ./src/token_granter_bindings.cpp ./src/token_granter.cpp ) 
-target_link_libraries(token_granter_py PRIVATE pybind11::module)
-target_link_libraries(token_granter_py PRIVATE ${CURL_LIBRARIES})
+pybind11_add_module(token_granter ./src/token_granter_bindings.cpp ./src/token_granter.cpp ) 
+target_link_libraries(token_granter PRIVATE pybind11::module)
+target_link_libraries(token_granter PRIVATE ${CURL_LIBRARIES})
