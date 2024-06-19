@@ -46,10 +46,10 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: library-${{ matrix.os }}-${{ matrix.suffix }}
-          path: ${{runner.workspace}}/TokenGranterWrapper/token_granter_wrapper/token_granter_shared.${{ matrix.suffix }}
+          path: ${{runner.workspace}}/TokenGranterWrapper/libtoken_granter_shared.${{ matrix.suffix }}
 
       - name: Upload Artifact Pybindings
         uses: actions/upload-artifact@v2
         with:
           name: library-${{ matrix.os }}-${{ matrix.suffix }}
-          path: ${{runner.workspace}}/TokenGranterWrapper/token_granter_wrapper/token_granter.${{ matrix.suffix }}
+          path: ${{runner.workspace}}/TokenGranterWrapper/token_granter_wrapper/token_granter.*.so
