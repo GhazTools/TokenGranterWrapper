@@ -64,7 +64,12 @@ jobs:
         run: python -m pip install cibuildwheel twine build
 
       - name: Build wheels
-        run: python -m cibuildwheel --output-dir wheelhouse
+        run: |
+          if [[ "${{ runner.os }}" == "Linux" ]]; then
+            python -m cibuildwheel --platform linux --output-dir wheelhouse
+          elif [[ "${{ runner.os }}" == "macOS" ]]; then
+            python -m cibuildwheel --platform macos --output-dir wheelhouse
+          fi
         env:
           CIBW_SKIP: cp38-* cp39-* cp310-* cp311=* cp312=*
           CIBW_BUILD: cp311*
