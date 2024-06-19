@@ -111,8 +111,8 @@ jobs:
           echo "WHEELHOUSE STARTS HERE"
           ls wheelhouse      
           
-      # - name: Test pacakge
-      #   run: pip install wheelhouse/*.whl && pytest {project}/tests/
+      - name: Test pacakge
+        run: pip install wheelhouse/*.whl && pytest tests/
 
       - name: Publish to PyPI
         run: python -m twine upload --repository-url https://pypi.ghaz.dev:440 wheelhouse/*.whl --verbose
