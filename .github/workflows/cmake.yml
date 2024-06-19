@@ -11,12 +11,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         include:
           - os: ubuntu-latest
             suffix: so
           - os: macos-latest
             suffix: dylib
+          - os: macos-latest
+            suffix: pyd
 
     steps:
       - uses: actions/checkout@v2
@@ -28,8 +30,11 @@ jobs:
             sudo apt install curl
             sudo apt install libssl-dev
             sudo apt-get install -y libcurl4-openssl-dev
-          else
+          elif [[ "${{ runner.os }}" == "macOS" ]]; then
             brew install curl
+          else
+            choco install curl
+            choco install openssl
           fi
 
       - name: Set up Python 3.11
@@ -73,6 +78,8 @@ jobs:
             echo "RUN apt-get update && apt-get install -y curl libcurl4-openssl-dev" > prebuild.sh
           elif [[ "${{ runner.os }}" == "macOS" ]]; then
             echo "brew install curl" > prebuild.sh
+          elif [[ "${{ runner.os }}" == "Windows" ]]; then
+            echo "choco install curl" > prebuild.sh
           fi
           chmod +x prebuild.sh
           platform=$(echo ${{ runner.os }} | tr '[:upper:]' '[:lower:]')
