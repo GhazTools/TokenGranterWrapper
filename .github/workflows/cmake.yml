@@ -59,11 +59,6 @@ jobs:
           name: library-${{ matrix.os }}-${{ matrix.suffix }}
           path: ${{runner.workspace}}/TokenGranterWrapper/token_granter_wrapper/token_granter.*.so
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.11.0-alpha.1" # or whatever the latest version is
-
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel
 
