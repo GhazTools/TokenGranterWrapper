@@ -46,4 +46,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: library-${{ matrix.os }}-${{ matrix.suffix }}
-          path: ${{runner.workspace}}/build/libMyLibrary.${{ matrix.suffix }}
+          path: ${{runner.workspace}}/build/token_granter_shared.${{ matrix.suffix }}
