@@ -75,7 +75,7 @@ setup(
     version="0.1.0",
     description="Some testing stuff",
     packages=setuptools.find_packages("token_granter_wrapper"),
-    package_dir={"": "src"},
+    package_dir={"": "token_granter_wrapper"},
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: POSIX :: Linux"
