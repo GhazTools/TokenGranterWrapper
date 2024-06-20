@@ -2,7 +2,7 @@
 
 // EXTERNAL IMPORTS START HERE
 #include "../lib/include/pybind11/include/pybind11/pybind11.h"
-#include "../include/pybind11/include/pybind11/stl.h"
+#include "../lib/include/pybind11/include/pybind11/stl.h"
 // EXTERNAL IMPORTS END HERE
 
 namespace py = pybind11;
