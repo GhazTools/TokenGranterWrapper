@@ -1,13 +1,13 @@
-#include "../include/token_granter.hpp"
+#include "../../lib/include/token_granter.hpp"
 
 // EXTERNAL IMPORTS START HERE
-#include "../include/pybind11/include/pybind11/pybind11.h"
-#include "../include/pybind11/include/pybind11/stl.h"
+#include "../../lib/include/pybind11/include/pybind11/pybind11.h"
+#include "../../lib/include/pybind11/include/pybind11/stl.h"
 // EXTERNAL IMPORTS END HERE
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(token_granter, m)
+PYBIND11_MODULE(token_granter_bindings, m)
 {
     py::class_<TokenGranter>(m, "TokenGranter")
         .def(py::init<const std::string &>())

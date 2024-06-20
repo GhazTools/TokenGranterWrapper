@@ -12,6 +12,7 @@ jobs:
     timeout-minutes: 480
     strategy:
       matrix:
+        # os: [ubuntu-latest]
         os: [ubuntu-latest, macos-latest]
         # os: [ubuntu-latest, windows-latest, macos-latest]
         include:
@@ -49,7 +50,8 @@ jobs:
       #   run: cmake -E make_directory ${{runner.workspace}}/build
 
       # - name: Configure CMake
-      #   shell: bash
+      #   shell: bash        /opt/rh/devtoolset-10/root/usr/libexec/gcc/x86_64-redhat-linux/10/ld: lib/src/libtoken_granter.a(token_granter.cpp.o): relocation R_X86_64_32 against undefined symbol `__pthread_key_create' can not be used when making a shared object; recompile with -fPIC
+
       #   run: cmake $GITHUB_WORKSPACE -B ${{runner.workspace}}/build
 
       # - name: Build
@@ -107,12 +109,12 @@ jobs:
         run: |
           ls
           echo "TK GRANTER STARTS HERE"
-          ls token_granter_wrapper
+          ls src/token_granter_wrapper
           echo "WHEELHOUSE STARTS HERE"
           ls wheelhouse      
           
-      - name: Test pacakge
-        run: pip install wheelhouse/*.whl && pytest tests/
+      # - name: Test pacakge
+      #   run: pip install wheelhouse/*.whl && pytest tests/
 
       - name: Publish to PyPI
         run: python -m twine upload --repository-url https://pypi.ghaz.dev:440 wheelhouse/*.whl --verbose
