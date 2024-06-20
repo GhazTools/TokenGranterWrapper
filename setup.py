@@ -14,8 +14,8 @@ from setuptools.command.build_ext import build_ext
 Modified from https://www.benjack.io/2017/06/12/python-cpp-tests.html
 '''
 class CMakeExtension(Extension):
-    def __init__(self, name, sourcedir=''):
-        Extension.__init__(self, name, sources=[])
+    def __init__(self, name, sourcedir='', sources=[]):
+        Extension.__init__(self, name, sources=sources)
         self.sourcedir = os.path.abspath(sourcedir)
 
 
@@ -84,7 +84,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: POSIX :: Linux"
     ],
-    ext_modules=[CMakeExtension('token_granter_bindings')],
+    ext_modules=[CMakeExtension('token_granter_bindings', sources=['token_granter_wrapper/token_granter_bindings.cpp'])],
     python_requires='>=3.6',
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
