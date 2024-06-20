@@ -1,8 +1,18 @@
-from setuptools import setup, Extension, find_packages
-from setuptools.command.build_ext import build_ext
+import setuptools
 import os
+import re
 import sys
+import sysconfig
+import platform
 import subprocess
+
+from distutils.version import LooseVersion
+from setuptools import setup, find_packages, Extension
+from setuptools.command.build_ext import build_ext
+
+"""
+Modified from https://www.benjack.io/2017/06/12/python-cpp-tests.html
+"""
 
 
 class CMakeExtension(Extension):
@@ -13,104 +23,77 @@ class CMakeExtension(Extension):
 
 class CMakeBuild(build_ext):
     def run(self):
+        try:
+            out = subprocess.check_output(["cmake", "--version"])
+        except OSError:
+            raise RuntimeError(
+                "CMake must be installed to build the following extensions: "
+                + ", ".join(e.name for e in self.extensions)
+            )
+
+        if platform.system() == "Windows":
+            cmake_version = LooseVersion(
+                re.search(r"version\s*([\d.]+)", out.decode()).group(1)
+            )
+            if cmake_version < "3.1.0":
+                raise RuntimeError("CMake >= 3.1.0 is required on Windows")
+
         for ext in self.extensions:
             self.build_extension(ext)
 
     def build_extension(self, ext):
         extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
-        cfg = "Debug" if self.debug else "Release"
 
         cmake_args = [
             "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=" + extdir,
             "-DPYTHON_EXECUTABLE=" + sys.executable,
-            "-DCMAKE_BUILD_TYPE=" + cfg,
         ]
 
+        cfg = "Debug" if self.debug else "Release"
         build_args = ["--config", cfg]
 
-        os.chdir(ext.sourcedir)
-        self.spawn(["cmake", ext.sourcedir] + cmake_args)
-        if not self.dry_run:
-            self.spawn(["cmake", "--build", "."] + build_args)
+        if platform.system() == "Windows":
+            cmake_args += [
+                "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}".format(cfg.upper(), extdir)
+            ]
+            if sys.maxsize > 2**32:
+                cmake_args += ["-A", "x64"]
+            build_args += ["--", "/m"]
+        else:
+            cmake_args += ["-DCMAKE_BUILD_TYPE=" + cfg]
+            build_args += ["--", "-j2"]
 
+        env = os.environ.copy()
+        env["CXXFLAGS"] = '{} -DVERSION_INFO=\\"{}\\"'.format(
+            env.get("CXXFLAGS", ""), self.distribution.get_version()
+        )
+        if not os.path.exists(self.build_temp):
+            os.makedirs(self.build_temp)
+        subprocess.check_call(
+            ["cmake", ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env
+        )
+        subprocess.check_call(
+            ["cmake", "--build", "."] + build_args, cwd=self.build_temp
+        )
+
+
+with open("README.md", "r") as f:
+    long_description = f.read()
 
 setup(
     name="token-granter-wrapper",
-    version="0.1",
-    packages=find_packages(),
-    ext_modules=[
-        CMakeExtension(
-            "token_granter_wrapper",
-            os.path.join(os.path.dirname(os.path.realpath(__file__))),
-            # "token_granter_wrapper", os.path.dirname(os.path.realpath(__file__))
-        )
+    version="0.1.0",
+    description="A test",
+    long_description="A test",
+    packages=setuptools.find_packages("token_granter_wrapper"),
+    package_dir={"src": "token_granter_wrapper"},
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "Operating System :: POSIX :: Linux",
     ],
-    package_data={
-        "": ["*.so", "*.pyi"],
-    },
-    include_package_data=True,
+    ext_modules=[CMakeExtension("token_granter_wrapper/")],
+    python_requires=">=3.6",
     cmdclass=dict(build_ext=CMakeBuild),
+    zip_safe=False,
+    install_requires=[],
 )
-# import os
-# import pathlib
-
-# from setuptools import setup, Extension, find_packages
-# from setuptools.command.build_ext import build_ext as build_ext_orig
-
-
-# class CMakeExtension(Extension):
-
-#     def __init__(self, name):
-#         # don't invoke the original build_ext for this special extension
-#         super().__init__(name, sources=[])
-
-
-# class build_ext(build_ext_orig):
-
-#     def run(self):
-#         for ext in self.extensions:
-#             self.build_cmake(ext)
-#         super().run()
-
-#     def build_cmake(self, ext):
-#         cwd = pathlib.Path().absolute()
-
-#         # these dirs will be created in build_py, so if you don't have
-#         # any python sources to bundle, the dirs will be missing
-#         build_temp = pathlib.Path(self.build_temp)
-#         build_temp.mkdir(parents=True, exist_ok=True)
-#         extdir = pathlib.Path(self.get_ext_fullpath(ext.name))
-#         extdir.mkdir(parents=True, exist_ok=True)
-
-#         # example of cmake args
-#         config = "Debug" if self.debug else "Release"
-#         cmake_args = [
-#             "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=" + str(extdir.parent.absolute()),
-#             "-DCMAKE_BUILD_TYPE=" + config,
-#         ]
-
-#         # example of build args
-#         build_args = ["--config", config, "--", "-j4"]
-
-#         os.chdir(str(build_temp))
-#         self.spawn(["cmake", str(cwd)] + cmake_args)
-#         if not self.dry_run:
-#             self.spawn(["cmake", "--build", "."] + build_args)
-#         # Troubleshooting: if fail on line above then delete all possible
-#         # temporary CMake files including "CMakeCache.txt" in top level dir.
-#         os.chdir(str(cwd))
-
-
-# setup(
-#     name="token-granter-wrapper",
-#     version="0.1",
-#     packages=find_packages(),
-#     ext_modules=[CMakeExtension("src/token_granter_bindings.cpp")],
-#     package_data={
-#         "": ["*.so", "*.pyi"],
-#     },
-#     include_package_data=True,
-#     cmdclass={
-#         "build_ext": build_ext,
-#     },
-# )
