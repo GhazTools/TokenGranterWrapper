@@ -1,4 +1,4 @@
-#include "../include/token_granter.hpp"
+#include "../lib/include/token_granter.hpp"
 
 // EXTERNAL IMPORTS START HERE
 #include "../lib/include/pybind11/include/pybind11/pybind11.h"
