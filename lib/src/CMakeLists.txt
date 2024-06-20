@@ -9,3 +9,4 @@ find_package(CURL REQUIRED)
 add_library(token_granter STATIC token_granter.cpp)
 
 target_link_libraries(token_granter ${CURL_LIBRARIES})
+set_target_properties(token_granter PROPERTIES POSITION_INDEPENDENT_CODE ON)

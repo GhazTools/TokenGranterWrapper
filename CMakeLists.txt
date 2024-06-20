@@ -34,5 +34,6 @@ set(SOURCE_DIR "token_granter_wrapper")
 set(SOURCES "${SOURCE_DIR}/token_granter_bindings.cpp")
 
 pybind11_add_module(token_granter_bindings ${SOURCES})
+set_target_properties(token_granter_bindings PROPERTIES POSITION_INDEPENDENT_CODE ON)
 set_target_properties(token_granter_bindings PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/token_granter_wrapper)
 target_link_libraries(token_granter_bindings PRIVATE token_granter)

@@ -50,7 +50,8 @@ jobs:
       #   run: cmake -E make_directory ${{runner.workspace}}/build
 
       # - name: Configure CMake
-      #   shell: bash
+      #   shell: bash        /opt/rh/devtoolset-10/root/usr/libexec/gcc/x86_64-redhat-linux/10/ld: lib/src/libtoken_granter.a(token_granter.cpp.o): relocation R_X86_64_32 against undefined symbol `__pthread_key_create' can not be used when making a shared object; recompile with -fPIC
+
       #   run: cmake $GITHUB_WORKSPACE -B ${{runner.workspace}}/build
 
       # - name: Build
