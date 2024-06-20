@@ -84,7 +84,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: POSIX :: Linux"
     ],
-    ext_modules=[CMakeExtension('token_granter_wrapper/token_granter_bindings')],
+    ext_modules=[CMakeExtension('token_granter_bindings')],
     python_requires='>=3.6',
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
