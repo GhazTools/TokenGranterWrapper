@@ -1,8 +1,8 @@
 #include "../include/token_granter.hpp"
 
 // EXTERNAL IMPORTS START HERE
-#include "../include/pybind11/include/pybind11/pybind11.h"
-#include "../include/pybind11/include/pybind11/stl.h"
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 // EXTERNAL IMPORTS END HERE
 
 namespace py = pybind11;
