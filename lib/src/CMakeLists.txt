@@ -6,6 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CURL_LIBRARY "-lcurl") 
 find_package(CURL REQUIRED)
 
-add_library(token_granter_wrapper STATIC token_granter.cpp)
+add_library(token_granter STATIC token_granter.cpp)
 
-target_link_libraries(token_granter_wrapper ${CURL_LIBRARIES})
+target_link_libraries(token_granter ${CURL_LIBRARIES})

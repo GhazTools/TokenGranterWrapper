@@ -7,7 +7,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(token_granter, m)
+PYBIND11_MODULE(token_granter_bindings, m)
 {
     py::class_<TokenGranter>(m, "TokenGranter")
         .def(py::init<const std::string &>())
