@@ -14,8 +14,8 @@ from setuptools.command.build_ext import build_ext
 Modified from https://www.benjack.io/2017/06/12/python-cpp-tests.html
 '''
 class CMakeExtension(Extension):
-    def __init__(self, name, sourcedir='', sources=[]):
-        Extension.__init__(self, name, sources=sources)
+    def __init__(self, name, sourcedir=''):
+        Extension.__init__(self, name, sources=[])
         self.sourcedir = os.path.abspath(sourcedir)
 
 
@@ -56,10 +56,6 @@ class CMakeBuild(build_ext):
             build_args += ['--', '/m']
         else:
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
-
-            if(platform.system() == "Darwin"):
-                cmake_args.append('-DCMAKE_CXX_FLAGS=-march=armv8-a')
-            
             build_args += ['--', '-j2']
 
         env = os.environ.copy()
@@ -76,19 +72,16 @@ class CMakeBuild(build_ext):
 
 setup(
     name="token-granter-wrapper",
-    version="0.1.0",
-    description="Some testing stuff",
-    packages=setuptools.find_packages("token_granter_wrapper"),
-    package_dir={"": "token_granter_wrapper"},
+    version="2.0.0",
+    packages=setuptools.find_packages("src"),
+    package_dir={"": "src"},
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: POSIX :: Linux"
     ],
-    ext_modules=[CMakeExtension('token_granter_bindings', sources=['token_granter_wrapper/token_granter_bindings.cpp'])],
+    ext_modules=[CMakeExtension('token_granter_wrapper/token_granter_bindings')],
     python_requires='>=3.6',
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
     install_requires=[]
 )
-
-# https://python.plainenglish.io/building-hybrid-python-c-packages-8985fa1c5b1d
