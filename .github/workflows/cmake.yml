@@ -12,13 +12,14 @@ jobs:
     timeout-minutes: 480
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
+        # os: [ubuntu-latest, macos-latest]
         # os: [ubuntu-latest, windows-latest, macos-latest]
         include:
           - os: ubuntu-latest
             suffix: so
-          - os: macos-latest
-            suffix: dylib
+          # - os: macos-latest
+          #   suffix: dylib
           # - os: windows-latest
           #   suffix: pyd
 
