@@ -56,6 +56,10 @@ class CMakeBuild(build_ext):
             build_args += ['--', '/m']
         else:
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
+
+            if(platform.system() == "Darwin"):
+                cmake_args.push('-DCMAKE_CXX_FLAGS=-march=armv8-a')
+            
             build_args += ['--', '-j2']
 
         env = os.environ.copy()
