@@ -72,7 +72,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name="token-granter-wrapper",
-    version="2.0.0",
+    version="0.2.0",
     packages=setuptools.find_packages("src"),
     package_dir={"": "src"},
     classifiers=[
