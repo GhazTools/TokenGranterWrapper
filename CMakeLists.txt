@@ -11,7 +11,7 @@ find_package(CURL REQUIRED)
 # target_link_libraries(token_granter ${CURL_LIBRARIES})
 
 # SHARED LIBRARY COMPILATION HERE
-add_library(token_granter_shared SHARED lib/src/token_granter.cpp)
+add_library(token_granter_shared SHARED ./lib/src/token_granter.cpp)
 target_link_libraries(token_granter_shared ${CURL_LIBRARIES})
 target_link_libraries(token_granter_shared ${CURL_LIBRARIES})
 
