@@ -13,3 +13,4 @@ set(SOURCES "${SOURCE_DIR}/token_granter_bindings.cpp")
 
 pybind11_add_module(token_granter_bindings ${SOURCES})
 target_link_libraries(token_granter_bindings PRIVATE token_granter ${CURL_LIBRARIES})
+target_include_directories(token_granter_bindings PRIVATE ${CURL_INCLUDE_DIRS})
