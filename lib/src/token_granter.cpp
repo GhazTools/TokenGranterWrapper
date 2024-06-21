@@ -1,6 +1,14 @@
 #include "../include/token_granter.hpp"
 
-TokenGranter::TokenGranter(const std::string &token_granter_url) : token_granter_url_(token_granter_url) {}
+TokenGranter::TokenGranter(const std::string &token_granter_url) : token_granter_url_(token_granter_url)
+{
+    curl_global_init(CURL_GLOBAL_ALL);
+}
+
+TokenGranter::~TokenGranter()
+{
+    curl_global_cleanup();
+}
 
 std::string TokenGranter::grant_access_token(const std::string &username, const std::string &password, const bool temporary) const
 {
@@ -60,6 +68,15 @@ nlohmann::json TokenGranter::make_post_request(const std::string &request_url, n
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, post_request_callback);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
 
+            // UNTIL WE FIGURE OUT SSL ISSUE
+            // Ignore SSL verification
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+
+            // Explicitly ignore local CA certificates
+            curl_easy_setopt(curl, CURLOPT_CAINFO, NULL);
+            curl_easy_setopt(curl, CURLOPT_CAPATH, NULL);
+
             std::string json_data = request.dump();
 
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json_data.c_str());
@@ -71,7 +88,6 @@ nlohmann::json TokenGranter::make_post_request(const std::string &request_url, n
         }
 
         curl_slist_free_all(headers);
-        curl_global_cleanup();
 
         nlohmann::json json_response = nlohmann::json::parse(readBuffer);
         return json_response;

@@ -13,6 +13,7 @@ class TokenGranter
 {
 public:
     TokenGranter(const std::string &token_granter_url);
+    ~TokenGranter();
 
     // PUBLIC METHODS HERE
     std::string grant_access_token(const std::string &username, const std::string &password, const bool temporary) const;
